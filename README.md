@@ -1,36 +1,156 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PokéBot - AI-Powered Pokédex Chatbot
+
+An AI-powered Pokédex chatbot built with Next.js that streams responses from Anthropic's Claude API. Ask about any Pokémon, get team building advice, and explore the world of Pokémon with an intelligent AI companion!
+
+## Features
+
+- **Real-time Streaming**: Responses stream directly from Anthropic's API for immediate feedback
+- **Pokémon Data**: Comprehensive Pokémon information from PokéAPI including stats, types, abilities, and sprites
+- **Team Builder**: AI-powered team building with strategic recommendations and type coverage analysis
+- **Modern UI**: Beautiful, responsive chat interface with dark mode support
+- **Server-side Security**: API keys safely stored server-side with no client exposure
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
+- Node.js 18+ 
+- npm or yarn
+- Anthropic API key
+
+### Installation
+
+1. **Clone and install dependencies:**
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone <repository-url>
+cd pokemon-chat-bot-ai
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. **Set up environment variables:**
+Create a `.env` file in the root directory:
+```bash
+ANTHROPIC_API_KEY=your_anthropic_api_key_here
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Get your API key from [Anthropic Console](https://console.anthropic.com/)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. **Run the development server:**
+```bash
+npm run dev
+```
 
-## Learn More
+4. **Open your browser:**
+Navigate to [http://localhost:3000](http://localhost:3000)
 
-To learn more about Next.js, take a look at the following resources:
+## Architecture
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Core Components
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **`/api/chat/route.ts`**: Streaming API endpoint that handles Anthropic integration
+- **`PokemonChatbot`**: Main chat interface with real-time streaming
+- **`PokemonCard`**: Beautiful Pokémon data display component
+- **`TeamDisplay`**: Strategic team visualization with analysis
 
-## Deploy on Vercel
+### Tools Integration
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. **PokéAPI Tool**: Fetches comprehensive Pokémon data including:
+   - Basic info (height, weight, types)
+   - Stats and abilities
+   - Sprites (normal and shiny)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+2. **Team Builder Tool**: Creates strategic teams based on:
+   - User concepts and preferences
+   - Type coverage and synergy
+   - Balanced stat distribution
+
+### Streaming Implementation
+
+- Uses Server-Sent Events (SSE) for real-time streaming
+- Handles tool calls and responses seamlessly
+- Maintains conversation context throughout the session
+
+## Usage Examples
+
+Try these prompts to explore PokéBot's capabilities:
+
+- **Pokémon Info**: "Tell me about Charizard"
+- **Team Building**: "Build me a balanced competitive team"
+- **Strategic Analysis**: "Create a team focused on speed and offense"
+- **Type Coverage**: "What are the best Water-type Pokémon for battles?"
+
+## Project Structure
+
+```
+pokemon-chat-bot-ai/
+├── src/
+│   ├── app/
+│   │   ├── api/
+│   │   │   └── chat/
+│   │   │       └── route.ts           # Streaming API endpoint
+│   │   ├── components/
+│   │   │   ├── PokemonChatbot.tsx     # Main chat interface with streaming
+│   │   │   ├── PokemonCard.tsx        # Pokémon data display component
+│   │   │   └── TeamDisplay.tsx        # Team visualization component
+│   │   ├── favicon.ico
+│   │   ├── globals.css                # Global styles
+│   │   ├── layout.tsx                 # App layout
+│   │   └── page.tsx                   # Home page
+│   ├── lib/
+│   │   ├── anthropic-service.ts       # Anthropic API integration
+│   │   ├── pokemon-service.ts         # Pokémon data & ranking logic
+│   │   └── tool-executor.ts           # Tool execution handler
+│   ├── config/
+│   │   └── tools.ts                   # Tool definitions & system prompt
+│   └── types/
+│       ├── api.ts                     # API constants & error types
+│       ├── chat.ts                    # Chat & streaming types
+│       ├── pokemon.ts                 # Pokémon data types
+│       ├── ui.ts                      # UI component types
+│       └── index.ts                   # Type exports
+├── public/
+│   ├── file.svg
+│   ├── globe.svg
+│   ├── next.svg
+│   ├── vercel.svg
+│   └── window.svg
+├── .gitignore
+├── eslint.config.mjs
+├── LICENSE
+├── next.config.ts                     # Next.js config with image domains
+├── next-env.d.ts
+├── package.json
+├── package-lock.json
+├── postcss.config.mjs
+├── README.md
+├── tailwindcss.config.mjs
+├── tsconfig.json
+└── WRITEUP.md                         # Project analysis & roadmap
+```
+
+## Technical Details
+
+- **Framework**: Next.js 15 with App Router
+- **AI Integration**: Direct Anthropic API integration
+- **Styling**: Tailwind CSS with custom components
+- **Type Safety**: Full TypeScript implementation
+- **Streaming**: Custom SSE implementation for real-time responses
+
+## Deployment
+
+The app is ready for deployment on Vercel, Netlify, or any platform supporting Next.js:
+
+1. Set environment variables in your deployment platform
+2. Deploy using your platform's standard Next.js deployment process
+
+## Environment Variables
+
+Required environment variables:
+
+- `ANTHROPIC_API_KEY`: Your Anthropic API key for Claude access
+
+## Security
+
+- API keys are stored server-side only
+- No sensitive data exposed to the client
+- Secure streaming implementation with proper error handling
